@@ -48,7 +48,7 @@ command = /home/vagrant/kitsune/manage.py runserver 33.33.33.10:8000
 directory = /home/vagrant/kitsune
 user = vagrant
 ",
-    require => Exec['db_sync'],
+    require => Exec['db_migrate'],
 }
 
 $packages_native = [
@@ -63,6 +63,9 @@ $packages_native = [
     "python-distribute",
     "sphinxsearch",
     "supervisor",
+    "dkms",
+    "vim",
+    "ack-grep",
 ]
 
 package {
@@ -85,7 +88,7 @@ exec { "packages_upgrade":
 }
 
 exec { "git_clone":
-    command => "git clone --recursive git://github.com/aclark4life/kitsune.git",
+    command => "git clone --recursive git://github.com/jsocol/kitsune.git",
     cwd => "/home/vagrant",
     logoutput => "true",
     path => "/usr/bin",
@@ -132,6 +135,14 @@ exec { "db_import":
     logoutput => "true",
     path => "/usr/bin:/bin",
     require => Exec['db_create'],
+}
+
+exec { "db_migrate":
+    command => "python ./vendor/src/schematic/schematic ./migrations/",
+    cwd => "/home/vagrant/kitsune",
+    logoutput => "true",
+    path => "/usr/bin:/bin",
+    require => Exec['db_import'],
 }
 
 exec { "supervisor_stop":
