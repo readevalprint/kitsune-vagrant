@@ -34,6 +34,7 @@ From within the vagrant shell::
 
 
 Then in your browser open::
+
 - http://33.33.33.10:8000
 
 When you are finished working, in the host type::
