@@ -22,7 +22,7 @@ Then up the vagrant box::
 
     $ vagrant up
 
-Connect to the vagrant box::
+This will take about 15-20 minutes to run on a "modern" machine (author has 2.66Ghz Macbook Pro w/4GB RAM). When it finishes, you will be able to connect to the vagrant box::
 
     $ vagrant ssh
 
@@ -32,11 +32,9 @@ From within the vagrant shell::
     $ python ./vendor/src/schematic/schematic ./migrations/
     $ python ./manage.py runserver
 
-This will take about 15-20 minutes to run on a "modern" machine (author has 2.66Ghz Macbook Pro w/4GB RAM). When it finishes, you should be able to open:
 
+Then in your browser open::
 - http://33.33.33.10:8000
-
-Eventually, you will be able to see kitsune running by opening http://33.33.33.10 in your browser (via mod_wsgi).
 
 When you are finished working, in the host type::
 
