@@ -9,22 +9,39 @@ Installation
 
 Clone the repository::
 
-    $ git clone git://github.com/aclark4life/kitsune-vagrant.git 
+    $ gem install vagrant
+    $ git clone git://github.com/readevalprint/kitsune-vagrant.git
     $ cd kitsune-vagrant
+    $ wget http://files.vagrantup.com/lucid64.box
 
 Then add a vagrant box [3]_::
 
-    $ vagrant box add kitsune http://files.vagrantup.com/lucid64.box
+    $ vagrant box add base ./lucid64.box
 
 Then up the vagrant box::
 
     $ vagrant up
+
+Connect to the vagrant box::
+
+    $ vagrant ssh
+
+From within the vagrant shell::
+
+    $ cd kitsune
+    $ python ./vendor/src/schematic/schematic ./migrations/
+    $ python ./manage.py runserver
 
 This will take about 15-20 minutes to run on a "modern" machine (author has 2.66Ghz Macbook Pro w/4GB RAM). When it finishes, you should be able to open:
 
 - http://33.33.33.10:8000
 
 Eventually, you will be able to see kitsune running by opening http://33.33.33.10 in your browser (via mod_wsgi).
+
+When you are finished working, in the host type::
+
+    $ vagrant halt
+
 
 Todo
 ====
