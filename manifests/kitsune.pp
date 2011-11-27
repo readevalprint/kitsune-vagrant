@@ -137,6 +137,12 @@ exec { "db_import":
     require => Exec['db_create'],
 }
 
+exec { "sql_migrate":
+    command => "python /home/vagrant/kitsune/vendor/src/schematic/schematic /home/vagrant/kitsune/migrations/",
+    path => "/usr/bin:/bin",
+    require => Exec["db_import"],
+}
+
 exec { "supervisor_stop":
     command => "/etc/init.d/supervisor stop",
     logoutput => "true",
