@@ -29,7 +29,6 @@ This will take about 15-20 minutes to run on a "modern" machine (author has 2.66
 From within the vagrant shell::
 
     $ cd kitsune
-    $ python ./vendor/src/schematic/schematic ./migrations/
     $ python ./manage.py runserver
 
 
