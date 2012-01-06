@@ -66,11 +66,12 @@ $packages_native = [
     "dkms",
     "vim",
     "ack-grep",
+    "virtualbox-ose-guest-utils",
 ]
 
 package {
     $packages_native: ensure => "installed",
-    require => Exec['packages_upgrade'],
+    require => Exec['packages_update'],
 }
 
 exec { "packages_update":
@@ -79,20 +80,14 @@ exec { "packages_update":
     path => "/usr/bin",
 }
 
-exec { "packages_upgrade":
-    command => "aptitude -y upgrade",
-    path => "/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/sbin",
-    logoutput => "true",
-    require => Exec['packages_update'],
-    timeout => "6000",
-}
 
 exec { "git_clone":
-    command => "git clone --recursive git://github.com/jsocol/kitsune.git",
+    command => "git clone git://github.com/mozilla/kitsune.git",
+    path => "/bin:/sbiny:/usr/bin:/usr/local/sbin:/usr/sbin",
     cwd => "/home/vagrant",
     logoutput => "true",
-    path => "/usr/bin",
     require => Package[$packages_native],
+    timeout => "-1",
 }
 
 exec { "chown_kitsune":
@@ -110,7 +105,7 @@ exec { "packages_compiled":
 }
 
 exec { "packages_vendor":
-    command => "git submodule update --init --recursive",
+    command => "git submodule update --init",
     cwd => "/home/vagrant/kitsune",
     path => "/usr/bin:/bin",
     logoutput => true,
