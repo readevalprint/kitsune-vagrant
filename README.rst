@@ -12,11 +12,6 @@ Clone the repository::
     $ gem install vagrant
     $ git clone git://github.com/readevalprint/kitsune-vagrant.git
     $ cd kitsune-vagrant
-    $ wget http://files.vagrantup.com/lucid64.box
-
-Then add a vagrant box [3]_::
-
-    $ vagrant box add base ./lucid64.box
 
 Then up the vagrant box::
 
@@ -40,13 +35,6 @@ When you are finished working, in the host type::
 
     $ vagrant halt
 
-
-Todo
-====
-
-- Use ``https://github.com/jsocol/kitsune-vagrant`` instead of ``https://github.com/aclark4life/kitsune-vagrant``
-    - XXX?
-- Add mod_wsgi support.
 
 Troubleshooting
 ===============
