@@ -2,7 +2,7 @@
 Introduction
 ============
 
-Follow these steps to run a kitsune [1]_ development environment inside a virtual machine [2]_
+Follow these steps to run a kitsune development environment inside a virtual machine.
 
 Installation
 ============
@@ -68,6 +68,12 @@ Sometimes ``vagrant up`` will quit with the message::
     [default] err: Could not send report: Got 1 failure(s) while initializing: change from absent to directory failed: Could not set 'directory on ensure: Read-only file system - /var/lib/puppet/rrd
 
 ``vagrant destroy`` and ``vagrant up`` again should fix the problem (whatever it is).
+
+Vagrant won't gem install, with a vague datetime error
+------------------------------------------------------
+
+Use the most current version of rubygems, and not the one from your distibution.
+http://rubyforge.org/projects/rubygems/
 
 Notes
 =====
