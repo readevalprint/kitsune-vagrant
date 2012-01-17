@@ -27,7 +27,11 @@ DATABASES = {
 }
 
 file { '/home/vagrant/.bash_profile':
-    content => 'PS1="\[\e[32m\][\u@\h]\[\e[0m\]\[\e[37m\][\t]\[\e[0m\]\n\[\e[36m\][\w]\[\e[0m\]>"'
+    content => 'PS1="\[\e[32m\][\u@\h]\[\e[0m\]\[\e[37m\][\t]\[\e[0m\]\n\[\e[36m\][\w]\[\e[0m\]>"\n
+alias ack=\"ack-grep\"
+alias ll="ls -l"
+alias la="ls -A"
+alias l="ls -CF"'
 }
 
 $packages_native = [
@@ -59,62 +63,4 @@ exec { "packages_update":
     path => "/usr/bin",
 }
 
-
-exec { "git_clone":
-    command => "git clone git://github.com/mozilla/kitsune.git || echo $?",
-    path => "/bin:/sbiny:/usr/bin:/usr/local/sbin:/usr/sbin",
-    cwd => "/home/vagrant",
-    logoutput => "true",
-    require => Package[$packages_native],
-    timeout => "-1",
-}
-
-exec { "chown_kitsune":
-    command => "sudo chown -R vagrant:vagrant /home/vagrant/kitsune",
-    logoutput => "true",
-    path => "/usr/bin",
-    require => Exec['git_clone'],
-}
-
-exec { "packages_compiled":
-    command => "sudo pip install -r requirements/compiled.txt",
-    cwd => "/home/vagrant/kitsune",
-    path => "/usr/bin",
-    require => Exec['chown_kitsune'],
-}
-
-exec { "packages_vendor":
-    command => "git submodule update --init",
-    cwd => "/home/vagrant/kitsune",
-    path => "/usr/bin:/bin",
-    logoutput => true,
-    require => Exec[
-        'packages_compiled',
-        'chown_kitsune',
-        'git_clone'
-    ],
-    timeout => "6000",
-}
-
-exec { "db_create":
-    command => "mysqladmin -u root create kitsune || echo $?",
-    logoutput => "true",
-    path => "/usr/bin:/bin",
-    require => Exec['packages_vendor'],
-}
-
-exec { "db_import":
-    command => "mysql -u root kitsune < scripts/schema.sql || echo $?",
-    cwd => "/home/vagrant/kitsune",
-    logoutput => "true",
-    path => "/usr/bin:/bin",
-    require => Exec['db_create'],
-}
-
-exec { "sql_migrate":
-    command => "python /home/vagrant/kitsune/vendor/src/schematic/schematic /home/vagrant/kitsune/migrations/",
-    logoutput => "true",
-    path => "/usr/bin:/bin",
-    require => Exec["db_import"],
-}
 
